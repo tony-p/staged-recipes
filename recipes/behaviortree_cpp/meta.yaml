@@ -1,0 +1,81 @@
+# Note: there are many handy hints in comments in this example -- remove them when you've finalized your recipe
+# If your package is python based, we recommend using Grayskull to generate it instead:
+# https://github.com/conda-incubator/grayskull
+
+# Jinja variables help maintain the recipe as you'll update the version only here.
+# Using the name variable with the URL in line 16 is convenient
+# when copying and pasting from another recipe, but not really needed.
+{% set name = "behaviortree_cpp" %}
+{% set version = "4.3.7" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/BehaviorTree/BehaviorTree.CPP/archive/refs/tags/{{ version }}.tar.gz
+  sha256: 30757f58a32fb926db3515258f216f2e2467079172ae4471284055822a52690d
+
+build:
+  # Uncomment the following line if the package is pure Python and the recipe is exactly the same for all platforms.
+  # It is okay if the dependencies are not built for all platforms/versions, although selectors are still not allowed.
+  # See https://conda-forge.org/docs/maintainer/knowledge_base.html#noarch-python for more details.
+  # noarch: python
+  # If the installation is complex, or different between Unix and Windows, use separate bld.bat and build.sh files instead of this key.
+  # By default, the package will be built for the Python versions supported by conda-forge and for all major OSs.
+  # Add the line "skip: True  # [py<35]" (for example) to limit to Python 3.5 and newer, or "skip: True  # [not win]" to limit to Windows.
+  # More info about selectors can be found in the conda-build docs: 
+  # https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html#preprocessing-selectors
+  script: cmake -DCMAKE_BUILD_TYPE=Release BehaviorTree.CPP && cmake --build . --parallel && cmake --install .
+  number: 0
+
+requirements:
+  build:
+    # If your project compiles code (such as a C extension) then add the required compilers as separate entries here.
+    # Compilers are named 'c', 'cxx' and 'fortran'.
+    - {{ compiler('cxx') }}
+    - cmake
+    - gtest
+    - gmock
+  host: []
+  run:
+    - zeromq
+    - sqlite
+
+test:
+  # Run tutorials and examples
+  # requires:
+  #   - pi
+  commands:
+    - examples/ex01_wrap_legacy
+    - examples/ex02_runtime_ports
+    - examples/ex04_waypoints
+    - examples/t01_first_tree_dynamic
+    - examples/t01_first_tree_static
+    - examples/t02_basic_ports
+    - examples/t03_generic_ports
+    - examples/t04_reactive_sequence
+    - examples/t05_crossdoor
+    - examples/t06_subtree_port_remapping
+    - examples/t07_load_multiple_xml
+    - examples/t08_additional_node_args
+    - examples/t09_scripting
+    - examples/t10_observer
+
+about:
+  home: https://github.com/BehaviorTree/BehaviorTree.CPP
+  summary: 'BehaviorTree.CPP - Behavior Trees Library in C++. Batteries included.'
+  description: |
+    C++ library for behavior trees where behavior trees are expressed in xml. Non-free graphical IDE Groot2 available.
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE
+  doc_url: https://www.behaviortree.dev/
+  dev_url: https://github.com/BehaviorTree/BehaviorTree.CPP
+
+extra:
+  recipe-maintainers:
+    # GitHub IDs for maintainers of the recipe.
+    # Always check with the people listed below if they are OK becoming maintainers of the recipe. (There will be spam!)
+    - tony-p
+    #- facontidavide
