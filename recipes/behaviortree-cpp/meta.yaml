@@ -5,8 +5,8 @@
 # Jinja variables help maintain the recipe as you'll update the version only here.
 # Using the name variable with the URL in line 16 is convenient
 # when copying and pasting from another recipe, but not really needed.
-{% set name = "behaviortree_cpp" %}
-{% set version = "4.3.7" %}
+{% set name = "behaviortree-cpp" %}
+{% set version = "4.3.6" %}
 
 package:
   name: {{ name|lower }}
