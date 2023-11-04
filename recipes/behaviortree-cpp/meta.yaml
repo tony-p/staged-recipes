@@ -26,7 +26,6 @@ build:
   # Add the line "skip: True  # [py<35]" (for example) to limit to Python 3.5 and newer, or "skip: True  # [not win]" to limit to Windows.
   # More info about selectors can be found in the conda-build docs: 
   # https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html#preprocessing-selectors
-  script: cmake -DCMAKE_BUILD_TYPE=Release . && cmake --build . --parallel && cmake --install .
   number: 0
 
 requirements:
@@ -63,6 +62,8 @@ test:
     - examples/t08_additional_node_args
     - examples/t09_scripting
     - examples/t10_observer
+    - test -f $PREFIX/lib/libbehaviortree_cpp$SHLIB_EXT  # [unix]
+    - if not exist %LIBRARY_LIB%\\behaviortree_cpp.lib exit 1  # [win]
 
 about:
   home: https://github.com/BehaviorTree/BehaviorTree.CPP
