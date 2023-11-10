@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+rm cmake/FindZeroMQ.cmake
+
 mkdir -p build
 cd build
 cmake \

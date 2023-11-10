@@ -1,0 +1,12 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index eccecc7..775b208 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -161,6 +161,7 @@ target_link_libraries(${BTCPP_LIBRARY}
+         ${CMAKE_DL_LIBS}
+         $<BUILD_INTERFACE:foonathan::lexy>
+         ${BTCPP_EXTRA_LIBRARIES}
++        libzmq
+ )
+ 
+ target_include_directories(${BTCPP_LIBRARY}

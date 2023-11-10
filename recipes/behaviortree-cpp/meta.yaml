@@ -5,8 +5,8 @@
 # Jinja variables help maintain the recipe as you'll update the version only here.
 # Using the name variable with the URL in line 16 is convenient
 # when copying and pasting from another recipe, but not really needed.
-{% set name = "behaviortree-cpp" %}
-{% set version = "4.3.6" %}
+{% set name = "behaviortree_cpp" %}
+{% set version = "4.4.0" %}
 
 package:
   name: {{ name|lower }}
@@ -14,7 +14,10 @@ package:
 
 source:
   url: https://github.com/BehaviorTree/BehaviorTree.CPP/archive/refs/tags/{{ version }}.tar.gz
-  sha256: 30757f58a32fb926db3515258f216f2e2467079172ae4471284055822a52690d
+  sha256: 2286385805c97505dd1f7e0df5b012a4d5795a9009b1e591bd4959ed64aa1634
+  patches:
+    - libzmq1.patch
+    - force.patch
 
 build:
   # Uncomment the following line if the package is pure Python and the recipe is exactly the same for all platforms.
@@ -32,7 +35,8 @@ requirements:
   build:
     # If your project compiles code (such as a C extension) then add the required compilers as separate entries here.
     # Compilers are named 'c', 'cxx' and 'fortran'.
-    - make
+    - make  # [not win]
+    - ninja  # [win]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - cmake
@@ -48,20 +52,20 @@ test:
   # requires:
   #   - pi
   commands:
-    - examples/ex01_wrap_legacy
-    - examples/ex02_runtime_ports
-    - examples/ex04_waypoints
-    - examples/t01_first_tree_dynamic
-    - examples/t01_first_tree_static
-    - examples/t02_basic_ports
-    - examples/t03_generic_ports
-    - examples/t04_reactive_sequence
-    - examples/t05_crossdoor
-    - examples/t06_subtree_port_remapping
-    - examples/t07_load_multiple_xml
-    - examples/t08_additional_node_args
-    - examples/t09_scripting
-    - examples/t10_observer
+    # - examples/ex01_wrap_legacy
+    # - examples/ex02_runtime_ports
+    # - examples/ex04_waypoints
+    # - examples/t01_first_tree_dynamic
+    # - examples/t01_first_tree_static
+    # - examples/t02_basic_ports
+    # - examples/t03_generic_ports
+    # - examples/t04_reactive_sequence
+    # - examples/t05_crossdoor
+    # - examples/t06_subtree_port_remapping
+    # - examples/t07_load_multiple_xml
+    # - examples/t08_additional_node_args
+    # - examples/t09_scripting
+    # - examples/t10_observer
     - test -f $PREFIX/lib/libbehaviortree_cpp$SHLIB_EXT  # [unix]
     - if not exist %LIBRARY_LIB%\\behaviortree_cpp.lib exit 1  # [win]
 

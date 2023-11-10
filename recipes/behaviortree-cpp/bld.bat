@@ -1,3 +1,6 @@
+
+del cmake\FindZeroMQ.cmake
+
 mkdir build
 cd build
 
